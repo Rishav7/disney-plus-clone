@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+//header done✅
 const Header = () => {
 	return (
 		<Nav>
