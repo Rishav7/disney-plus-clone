@@ -63,10 +63,8 @@ const Movies = () => {
 export default Movies
 
 const Container = styled.div`
-	/* margin-top: 30px;
-	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
-	grid-gap: 25px; */
+	min-height: calc(100vh - 70px);
+	padding: 0 calc(3.5vh + 5px);
 `
 const Content = styled.div`
 	display: grid;
