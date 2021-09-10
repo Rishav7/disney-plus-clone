@@ -1,60 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
+import { selectMovies } from '../features/movie/movieSlice'
+import { useSelector } from 'react-redux'
 
 const Movies = () => {
+	const movies = useSelector(selectMovies)
+	console.log(movies)
 	return (
 		<Container>
 			<h4>Reccommened for you</h4>
 
 			<Content>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
-				<Wrap>
-					<img
-						src='https://cdn.pastemagazine.com/www/articles/2019/05/30/highest-grossing-movies-2019.jpg'
-						alt=''
-					/>
-				</Wrap>
+				{movies &&
+					movies.map((movie) => (
+						<Wrap key={movie.id}>
+							<img src={movie.cardImg} alt='' />
+						</Wrap>
+					))}
 			</Content>
 		</Container>
 	)

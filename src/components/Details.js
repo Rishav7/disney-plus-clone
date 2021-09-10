@@ -4,7 +4,6 @@ import styled from 'styled-components'
 const Details = () => {
 	return (
 		<Container>
-			Details
 			<Background>
 				<img
 					src='https://2.bp.blogspot.com/-hCGOzpSIz48/WunsfeVtqYI/AAAAAAAAWF8/Jhcep81ZE6YzUxNQv0BYvIOAIG5MR1bGwCLcBGAs/s1600/Bao%2BFunko%2BPop%2BFigure.jpg'
@@ -133,4 +132,5 @@ const Description = styled.div`
 	font-size: 15px;
 	min-height: 20px;
 	margin-top: 26px;
+	max-width: 500px;
 `

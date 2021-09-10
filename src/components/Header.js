@@ -1,8 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { auth, provider } from '../firebase'
 
-//header done✅
-const Header = () => {
+const Header = (props) => {
+	const handleAuth = () => {
+		auth.signInWithPopup(provider).then((result) => {
+			console.log(result)
+		})
+	}
 	return (
 		<Nav>
 			<Logo src='/images/logo.svg' />
@@ -32,9 +37,10 @@ const Header = () => {
 					<span>SERIES</span>
 				</a>
 			</NavMenu>
-			<UserImage
+			<Login
 				src='https://efp.org.pk/wp-content/uploads/2019/01/Blank-Trainer.png'
 				alt=''
+				onClick={handleAuth}
 			/>
 		</Nav>
 	)
@@ -99,7 +105,7 @@ const NavMenu = styled.div`
 		}
 	}
 `
-const UserImage = styled.img`
+const Login = styled.img`
 	height: 40px;
 	width: 40px;
 	border-radius: 50%;
