@@ -1,44 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+
+import db from './../firebase'
 
 const Details = () => {
+	const { id } = useParams()
+	const [movie, setMovie] = useState()
+
+	useEffect(() => {
+		db.collection('movies')
+			.doc(id)
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					setMovie(doc.data())
+				} else {
+					console.log('no such data in firebase')
+				}
+			})
+	}, [id])
+	console.log('movie is', movie)
+
 	return (
 		<Container>
-			<Background>
-				<img
-					src='https://2.bp.blogspot.com/-hCGOzpSIz48/WunsfeVtqYI/AAAAAAAAWF8/Jhcep81ZE6YzUxNQv0BYvIOAIG5MR1bGwCLcBGAs/s1600/Bao%2BFunko%2BPop%2BFigure.jpg'
-					alt=''
-				/>
-			</Background>
-			<ImageTitle>
-				<img
-					src='https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D7AEE1F05D10FC37C873176AAA26F777FC1B71E7A6563F36C6B1B497CAB1CEC2/scale?width=1440&aspectRatio=1.78'
-					alt=''
-				/>
-			</ImageTitle>
-			<ControlsContainers>
-				<PlayButton>
-					<img src='/images/play-icon-black.png' alt='' />
-					<span>PLAY</span>
-				</PlayButton>
+			{movie && (
+				<>
+					<Background>
+						<img src={movie.backgroundImg} alt='' />
+					</Background>
+					<ImageTitle>
+						<img src={movie.titleImg} alt='' />
+					</ImageTitle>
+					<ControlsContainers>
+						<PlayButton>
+							<img src='/images/play-icon-black.png' alt='' />
+							<span>PLAY</span>
+						</PlayButton>
 
-				<TrailerButtom>
-					<img src='/images/play-icon-white.png' alt='' />
-					<span>TRAILER</span>
-				</TrailerButtom>
-				<AddButton>
-					<span>+</span>
-				</AddButton>
-				<GroupWatchButon>
-					<img src='/images/group-icon.png' alt='' />
-				</GroupWatchButon>
-			</ControlsContainers>
-			<Subtitle>2018 | 7m | Family| Animated | Children</Subtitle>
-			<Description>
-				The film is about an aging and lonely Chinese-Canadian mother, suffering
-				from empty nest syndrome, who receives an unexpected second chance at
-				motherhood when she makes a steamed bun (baozi) that comes to life.
-			</Description>
+						<TrailerButtom>
+							<img src='/images/play-icon-white.png' alt='' />
+							<span>TRAILER</span>
+						</TrailerButtom>
+						<AddButton>
+							<span>+</span>
+						</AddButton>
+						<GroupWatchButon>
+							<img src='/images/group-icon.png' alt='' />
+						</GroupWatchButon>
+					</ControlsContainers>
+					<Subtitle> {movie.subTitle}</Subtitle>
+					<Description>
+						The film is about an aging and lonely Chinese-Canadian mother,
+						suffering from empty nest syndrome, who receives an unexpected
+						second chance at motherhood when she makes a steamed bun (baozi)
+						that comes to life.
+					</Description>
+				</>
+			)}
 		</Container>
 	)
 }

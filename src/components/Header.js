@@ -1,47 +1,101 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { auth, provider } from '../firebase'
+import { useHistory } from 'react-router-dom'
+
+import {
+	selectUserName,
+	selectUserPhoto,
+	setUserLogin,
+	setSignOut,
+} from '../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Header = (props) => {
-	const handleAuth = () => {
+	const dispatch = useDispatch()
+	const history = useHistory()
+
+	const userName = useSelector(selectUserName)
+	const userPhoto = useSelector(selectUserPhoto)
+
+	useEffect(() => {
+		auth.onAuthStateChanged(async (user) => {
+			if (user) {
+				dispatch(
+					setUserLogin({
+						name: user.displayName,
+						email: user.email,
+						photo: user.photoURL,
+					})
+				)
+
+				history.push('/home')
+			}
+		})
+	})
+	const signIn = () => {
 		auth.signInWithPopup(provider).then((result) => {
+			let user = result.user
+			dispatch(
+				setUserLogin({
+					name: user.displayName,
+					email: user.email,
+					photo: user.photoURL,
+				})
+			)
 			console.log(result)
+			history.push('/home')
 		})
 	}
+
+	const signOut = () => {
+		var shouldDelete = window.confirm('Do you really want to Signout?')
+		if (shouldDelete) {
+			auth.signOut().then(() => {
+				dispatch(setSignOut())
+				history.push('/')
+			})
+		}
+	}
+
 	return (
 		<Nav>
 			<Logo src='/images/logo.svg' />
-			<NavMenu>
-				<a href='/home'>
-					<img src='/images/home-icon.svg' alt='HOME' />
-					<span>HOME</span>
-				</a>
-				<a href='/#'>
-					<img src='/images/search-icon.svg' alt='SEARCH' />
-					<span>SEARCH</span>
-				</a>
-				<a href='/#'>
-					<img src='/images/watchlist-icon.svg' alt='WATCHLIST' />
-					<span>WATCHLIST</span>
-				</a>
-				<a href='/#'>
-					<img src='/images/original-icon.svg' alt='ORIGINALS' />
-					<span>ORIGINALS</span>
-				</a>
-				<a href='/#'>
-					<img src='/images/movie-icon.svg' alt='MOVIES' />
-					<span>MOVIES</span>
-				</a>
-				<a href='/#'>
-					<img src='/images/series-icon.svg' alt='SERIES' />
-					<span>SERIES</span>
-				</a>
-			</NavMenu>
-			<Login
-				src='https://efp.org.pk/wp-content/uploads/2019/01/Blank-Trainer.png'
-				alt=''
-				onClick={handleAuth}
-			/>
+			{!userName ? (
+				<LoginContainer>
+					<Login onClick={signIn}>Login</Login>
+				</LoginContainer>
+			) : (
+				<>
+					<NavMenu>
+						<a href='/home'>
+							<img src='/images/home-icon.svg' alt='HOME' />
+							<span>HOME</span>
+						</a>
+						<a href='/#'>
+							<img src='/images/search-icon.svg' alt='SEARCH' />
+							<span>SEARCH</span>
+						</a>
+						<a href='/#'>
+							<img src='/images/watchlist-icon.svg' alt='WATCHLIST' />
+							<span>WATCHLIST</span>
+						</a>
+						<a href='/#'>
+							<img src='/images/original-icon.svg' alt='ORIGINALS' />
+							<span>ORIGINALS</span>
+						</a>
+						<a href='/#'>
+							<img src='/images/movie-icon.svg' alt='MOVIES' />
+							<span>MOVIES</span>
+						</a>
+						<a href='/#'>
+							<img src='/images/series-icon.svg' alt='SERIES' />
+							<span>SERIES</span>
+						</a>
+					</NavMenu>
+					<UserImg src={userPhoto} alt='' onClick={signOut} />
+				</>
+			)}
 		</Nav>
 	)
 }
@@ -105,9 +159,29 @@ const NavMenu = styled.div`
 		}
 	}
 `
-const Login = styled.img`
+const UserImg = styled.img`
 	height: 40px;
 	width: 40px;
 	border-radius: 50%;
 	cursor: pointer;
+`
+const Login = styled.div`
+	border: 1px solid #f9f9f9;
+	padding: 8px 16px;
+	border-radius: 4px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	background-color: rgba(0, 0, 0, 0.6);
+	transition: all 0.2s ease 0s;
+	cursor: pointer;
+
+	&:hover {
+		background-color: white;
+		color: #000000;
+	}
+`
+const LoginContainer = styled.div`
+	display: flex;
+	flex: 1;
+	justify-content: end;
 `

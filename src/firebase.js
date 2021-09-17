@@ -8,8 +8,8 @@ const firebaseConfig = {
 	messagingSenderId: '37918794208',
 	appId: '1:37918794208:web:dbe9842dfe1dda522a4b85',
 	measurementId: 'G-DRVLJKWRWG',
-
-	/* 	apiKey: 'AIzaSyCi_ToKK7-P9ru1rcUe6hZ1RAxxCGo3gOc',
+	/* 
+	apiKey: 'AIzaSyCi_ToKK7-P9ru1rcUe6hZ1RAxxCGo3gOc',
 	authDomain: 'disney-pus-clone.firebaseapp.com',
 	databaseURL: 'https://disney-pus-clone-default-rtdb.firebaseio.com',
 	projectId: 'disney-pus-clone',
